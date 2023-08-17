@@ -1,0 +1,90 @@
+<html>
+<head>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+
+    <script src="https://unpkg.com/vue-select@latest"></script>
+    <link rel="stylesheet" href="https://unpkg.com/vue-select@latest/dist/vue-select.css">
+
+    <link rel="stylesheet" href="css/master.css">
+    <title>Movie Lookup</title>
+</head>
+<body>
+
+<div class="background" id="vue-app">
+
+    <h1>MOVIE Lookup</h1>   
+
+    <!-- {{ message }} -->
+    
+    <form name="appForm">
+        <table>
+            <colgroup>
+                <col width="20%">
+                <col width="80%">
+            </colgroup>
+
+            <tr>
+                <td class="right-aligned">Select a year: </td>
+                <td>
+                    <!-- <select name="countrySelect"> -->
+                        <!-- <option v-for="item in countries">
+                            {{ item }}
+                        </option> -->
+
+                        <v-select v-model="yearSelected" :options="years" @input="fetchMovies();movieSelected=null"></v-select>
+                    <!-- </select>  -->
+                </td>
+            </tr>
+
+            <tr>
+                <td class="right-aligned">Select a Movie: </td>
+                <td>
+                    <v-select v-model="movieSelected" :options="movies" :label="'title'"></v-select>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="right-aligned" :class="{ 'multiple-entries': (movieSelected != null && movieSelected.genres.length > 1) }">Genres: </td>
+                <td v-if="movieSelected !=null">
+                    <span v-for="genre in movieSelected.genres">{{ genre }}<br /></span>
+                </td>
+            </tr>
+
+           <tr>
+                <td class="right-aligned">Extract: </td>
+                <td v-if="movieSelected!=null">
+                   <span>{{ movieSelected.extract }}</span>
+                </td>
+            </tr> 
+            
+            
+
+        </table>
+
+        <table class="link-preview-table" v-if="movieSelected != null && movieSelected.thumbnail != null">
+
+            <tr>
+                <td class="link-preview-image" v-if="movieSelected != null && movieSelected.thumbnail != null">
+                    <img v-if="movieSelected != null" v-bind:src="movieSelected.thumbnail" alt="movie preview" height="50%">
+                </td>
+                <td> 
+                    <p class="link-preview-visit"><a v-bind:href="movieSelected.href" target="_blank">Visit >>></a></p> 
+                                  
+                </td>
+            </tr>
+        
+        </table>
+
+    </form>
+    
+    
+
+</div>
+
+
+<script src="js/db.js"></script>
+<script src="js/index.js"></script>
+
+</body>
+</html>
